@@ -155,7 +155,7 @@ No known bugs at this time.
 
 ## Authors
 Sebastián Conytreras - [Github](https://github.com/Sebas15897) / [Twitter](https://twitter.com/Sebasssssss7)  
-Daniel Almagro - [Github](#) / [Twitter](#)
+Daniel Almagro - [Github](https://github.com/dany-eduard) / [Twitter](https://twitter.com/dany_eduard17)
 
 Second part of Airbnb: Joann Vuong
 ## License
