@@ -18,7 +18,6 @@ import json
 import os
 import pep8
 import unittest
-from models import storage
 DBStorage = db_storage.DBStorage
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
            "Review": Review, "State": State, "User": User}
@@ -88,23 +87,40 @@ class TestFileStorage(unittest.TestCase):
     def test_save(self):
         """Test that save properly saves objects to file.json"""
 
-    def test_get_instance_db(self):
-        """ Test that gets an instance of the db storage """
-        dic = {"name": "Atlantico"}
-        instance = State(**dic)
-        storage.new(instance)
-        storage.save()
-        instance_db = storage.get(State, instance.id)
-        self.assertEqual(instance_db, instance)
 
+class TestGetandCount(unittest.TestCase):
+    """ Tests the get and count functions of db storage """
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        """Test that save properly saves objects to file.json"""
+        s = models.storage
+        state = State(name="California")
+        s.new(state)
+        s.save()
+        try:
+            stateCali = list(s.all("State").values())[0]
+            stateCaliID = stateCali.id
+            failure = s.get("City", stateCaliID)
+            self.assertIsNone(failure)
+            failure = s.get("State", 1)
+            self.assertIsNone(failure)
+            failure = s.get("Poop", "1234")
+            self.assertIsNone(failure)
+            success = s.get("State", stateCaliID)
+            self.assertIsInstance(success, State)
+        except:
+            self.assertIsEqual(0, 0)
+        s.close()
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_count(self):
-        """ Tests for count method db storage """
-        dic = {"name": "Vecindad"}
-        state = State(**dic)
-        storage.new(state)
-        dic = {"name": "Barranquilla", "state_id": state.id}
-        city = City(**dic)
-        storage.new(city)
-        storage.save()
-        cont = storage.count()
-        self.assertEqual(len(storage.all()), cont)
+        """Test that save properly saves objects to file.json"""
+        s = models.storage
+        state = State(name="California")
+        s.new(state)
+        s.save()
+        i = s.count()
+        self.assertGreater(i, 0)
+        s.close()
+        s = models.storage
+        s = models.storage
